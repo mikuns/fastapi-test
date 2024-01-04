@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" href="/static/asset/style.css">
+<title>
+    posts
+</title>
+{% block body %}
+    <div class="dd">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar">
+            <a class="navbar-brand" href="/all">Social Media</a>
+            <!-- Search input -->
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <!-- Other navigation links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Home link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/all">
+                        <i class="material-icons">home</i> Home
+                    </a>
+                </li>
+                <!-- Profile link -->
+                <li class="nav-item dd">
+                    <a class="nav-link dd" href="/user">
+                        <i class="material-icons">person</i> Profile
+                    </a>
+                    <div class="dd-content">
+                        <a href="/user_email">Profile</a>
+                        <a href="/user_name">basic</a>
+                        <a href="/user_location">location</a>
+                        <a href="/freinds_list">freinds</a>
+                    </div>
+                </li>
+                <!-- Create post link -->
+                
+                <!-- Logout link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="material-icons">logout</i> Logout
+                    </a>
+                </li>
+                <li class="nav-item dd">
+                    <a class="nav-link" href="#" >
+                        <i class="material-icons">add</i> Create
+                    </a>
+                    <div class="dd-content" action="/create_post" method="POST">
+                        <input type="text" id="content" placeholder="title" name="content"/><br>
+                        <input type="text" id="content" placeholder="content" name="content"/><br>
+                        <input type="file" name="image" accept="image/*"><br>
+                        <button type="submit" value="post">Post</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Form for creating a post -->
+    <div  id="postForm" style="display: none;">
+        <form  id="createPostForm" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Title"><br>
+            <textarea name="content" placeholder="Content"></textarea><br>
+            <input type="file" name="image" accept="image/*"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    </div>
+
+   {% for item in posts_with_votes %}
+        <div class="post-container" style="position: relative; border: 1px solid #ccc; padding: 60px; margin-bottom: 15px;">
+            {% if item.user_email %}
+                <p style="margin-bottom: 3px;">{{ item.user_email }}</p>
+            {% else %}
+                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
+            {% endif %}
+            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>
+            <p style="margin-bottom: 3px;">Content: {{ item.post.content }}</p>
+            <p style="margin-bottom: 3px;">Published: {{ item.post.published }}</p>
+            <p style="margin-bottom: 3px;">Image: {{ item.post.image }}</p>
+            
+            <!-- Votes section -->
+            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>
+            <!-- Comment input and button -->
+            <!-- Comment input and button initially hidden -->
+            <!-- Your existing HTML structure -->
+            <div class="dd" style="position: absolute; bottom: 10px; left: 10px;">
+                <button class="btn btn-primary btn-sm comment-button">Comment</button>
+                 <div  id="commentForm" style="display: none;">
+                    <form  id="createCommentForm" enctype="multipart/form-data">
+                        <input type="text" name="comment" placeholder="comment"><br>
+                        <input type="submit" value="Submit">
+                    </form>
+           </div>
+            
+
+            <div style="position: absolute; bottom: 10px; left: 300px;">
+                <button class="btn btn-outline-primary btn-sm comment-toggle">Like</button>
+               
+            </div>
+
+
+            <!-- Update and Delete links -->
+            <div style="position: absolute; top: 10px; right: 10px;">
+                <a href="/delete/{{ item.post.id }}"><i class="material-icons" color="red">delete</i> Delete</a>
+                <a href="/update/{{ item.post.id }}"><i class="material-icons">update</i> Update</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <!-- Include jQuery before Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get the navbar
+const navbar = document.getElementById("navbar");
+
+// Get the initial offset position of the navbar
+const navbarOffsetTop = navbar.offsetTop;
+
+// Function to handle scroll event
+function handleScroll() {
+    // Check if the page has been scrolled past the navbar
+    if (window.pageYOffset > navbarOffsetTop) {
+        navbar.classList.add("visible-navbar");
+    } else {
+        navbar.classList.remove("visible-navbar");
+    }
+}
+
+// Event listener for the scroll event
+window.addEventListener("scroll", handleScroll);
+
+        $(document).ready(function() {
+            $('.comment-toggle').click(function() {
+            
+                $(this).closest('.post-container').find('.comment-section').toggle();
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% extends 'base.html' %}
+<link rel="stylesheet" href="/static/asset/style.css">
+<title>posts</title>
+
+{% block body %}
+      <div class="dd">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar">
+            <a class="navbar-brand" href="/all">Social Media</a>
+            <!-- Search input -->
+            <form class="form-inline my-2 my-lg-0 mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <!-- Other navigation links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Home link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/all">
+                        <i class="material-icons">home</i> Home
+                    </a>
+                </li>
+                <!-- Profile link -->
+                <li class="nav-item dd">
+                    <a class="nav-link dd" href="/user">
+                        <i class="material-icons">person</i> Profile
+                    </a>
+                    <div class="dd-content">
+                        <a href="/user_email">Profile</a>
+                        <a href="/user_name">basic</a>
+                        <a href="/user_location">location</a>
+                        <a href="/freinds_list">freinds</a>
+                    </div>
+                </li>
+                <!-- Create post link -->
+                
+                <!-- Logout link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="material-icons">logout</i> Logout
+                    </a>
+                </li>
+                <li class="nav-item dd">
+                    <a class="nav-link" href="#" >
+                        <i class="material-icons">add</i> Create
+                    </a>
+                    <div class="dd-content" action="/create_post" method="POST">
+                        <input type="text" id="content" placeholder="title" name="content"/><br>
+                        <input type="text" id="content" placeholder="content" name="content"/><br>
+                        <input type="file" name="image" accept="image/*"><br>
+                        <button type="submit" value="post">Post</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Form for creating a post -->
+    <div id="postForm" style="display: none;">
+        <!-- ... Create post form content ... -->
+    </div>
+
+    {% for item in posts_with_votes %}
+        <div class="post-container" style="position: relative; border: 1px solid #ccc; padding: 60px; margin-bottom: 15px;">
+            <!-- ... Post content ... -->
+            {% if item.user_email %}
+                <p style="margin-bottom: 3px;">{{ item.user_email }}</p>
+            {% else %}
+                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
+            {% endif %}
+            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>
+            <p style="margin-bottom: 3px;">Content: {{ item.post.content }}</p>
+            <p style="margin-bottom: 3px;">Published: {{ item.post.published }}</p>
+            <p style="margin-bottom: 3px;">Image: {{ item.post.image }}</p>
+            
+            <!-- Votes section -->
+            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>
+            <div class="dd" style="position: absolute; bottom: 10px; left: 10px;">
+                <button class="btn btn-primary btn-sm comment-button">Comment</button>
+                <div class="comment-input" style="display: none;">
+                    <form id="createCommentForm" enctype="multipart/form-data">
+                        <input type="text" name="comment" placeholder="comment"><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 10px; left: 300px;">
+                <button class="btn btn-outline-primary btn-sm comment-toggle">Like</button>
+            </div>
+            <!-- ... Update and Delete links ... -->
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <!-- Include jQuery before Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+         $(document).ready(function() {
+            $('.comment-button').click(function() {
+                $(this).siblings('.comment-input').toggle();
+            });
+        });
+        const navbar = document.getElementById("navbar");
+        const navbarOffsetTop = navbar.offsetTop;
+
+        function handleScroll() {
+            if (window.pageYOffset > navbarOffsetTop) {
+                navbar.classList.add("visible-navbar");
+            } else {
+                navbar.classList.remove("visible-navbar");
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+
+        $(document).ready(function() {
+            $('.comment-button').click(function() {
+                $(this).siblings('.comment-input').toggle();
+            });
+        });
+    </script>
+{% endblock %}
+  
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Brand/logo -->
+        
+
+        <!-- Toggle button for small screens -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Home link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="material-icons">home</i> Home
+                    </a>
+                </li>
+                <!-- Support link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/support">
+                        <i class="material-icons">support</i> Support
+                    </a>
+                </li>
+                <!-- Add more links here as needed -->
+            </ul>
+        </div>
+    </nav>

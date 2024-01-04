@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <body>
+        <div class="login">
+           <h1 style="color: black;">Already registered?</h1>
+           <button type="button" name="signup" onclick="redirectToSignin()">Login</button>
+        </div>
+
+        <div class="form-container">
+            <form action="/create_user" id="loginForm">
+                <div class="input-cnt">
+                    <i class="material-icons">person</i>
+                    <input type="text" placeholder="Email or username" name="email" required/>
+                </div>
+                <div class="input-cnt">
+                    <i class="material-icons">lock</i>
+                    <input type="password" placeholder="Password" name="password" id="password" required/>
+                </div>
+                <div class="input-cnt">
+                    <i class="material-icons">lock</i>
+                    <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" required/>
+                </div>
+                <div class="input-cnt">
+                    <input type="submit" value="Signup" onclick="submitForm(event)"/>
+                </div>
+            </form>
+        </div>
+        <div>
+            <!-- Other content specific to this page -->
+        </div>
+       
+    </body>
+
+    <script>
+        
+function redirectToSignin() {
+    window.location.href = '/';
+}
+</script>
+{% endblock %}

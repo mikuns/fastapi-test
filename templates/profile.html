@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+{% block body %}
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    {% if user_profile %}
+        <h2>{{ user_profile.first_name }} {{ user_profile.last_name }}</h2>
+        <p>Email: {{ user_profile.user_email }}</p>
+        <p>Age: {{ user_profile.age }}</p>
+        <p>Country: {{ user_profile.country or 'Not specified' }}</p>
+        <p>Phone Number: {{ user_profile.phone_number or 'Not specified' }}</p>
+        <p>Hobbies: {{ user_profile.hobbies or 'Not specified' }}</p>
+        <p>Posts: {{ user_profile.posts or 0 }}</p>
+        <!-- Add other user profile fields as needed -->
+    {% else %}
+        <p>User profile not found</p>
+    {% endif %}
+</body>
+</html>
+{% end block %}

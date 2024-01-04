@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% block content %}
+    <title>Login form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+</head>
+<body>
+    <div class="login">
+        <button type="button" name="signup" onclick="redirectToSignup()">Signup</button>
+    </div>
+    <div class="form-container">
+        <form action="/login_endpoint" id="loginForm" method="POST">
+            <div class="input-cnt">
+                <i class="material-icons">person</i>
+                <input type="text" placeholder="Email or username" name="username" required/>
+            </div>
+            <div class="input-cnt">
+                <i class="material-icons">lock</i>
+                <input type="password" placeholder="Password" name="password" required/>
+            </div>
+            <div class="input-cnt">
+                <input type="submit" value="Login" />
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Function to handle login form submission
+        function handleLoginForm(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Perform a fetch request to the login endpoint
+            fetch('/login_endpoint', {
+                method: 'POST',
+                body: new FormData(document.getElementById('loginForm')),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Store the token as a cookie upon a successful response
+                setCookie('jwtToken', data.access_token, 7); // Change '7' to the desired number of days for the cookie to persist
+                
+                // After setting the token, fetch data or perform other actions
+                fetchDataWithToken(); // Call the function to fetch data using the access token
+            })
+            .catch(error => {
+                console.error('Login failed:', error);
+                // Handle login failure
+            });
+        }
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = '';
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toUTCString();
+            }
+            document.cookie = name + '=' + (value || '') + expires + '; path=/';
+        }
+
+        // Function to fetch data using the access token
+        function fetchDataWithToken() {
+            const accessToken = getCookie('jwtToken'); // Get the token from the cookie
+
+            if (accessToken) {
+                fetch('/all', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch data');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // Handle the fetched data
+                    console.log('Fetched data:', data);
+                    // You can perform actions with the fetched data here
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    // Handle errors during fetching
+                });
+            } else {
+                console.error('Access token not available');
+                // Handle the case where the access token is not available
+            }
+        }
+
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookieValue ? cookieValue.pop() : '';
+        }
+
+        // Attach the handleLoginForm function to the form submission event
+        document.getElementById('loginForm').addEventListener('submit', handleLoginForm);
+    </script>
+</body>
+</html>
+{% endblock %}
+
+
+   
+
+   /* Reset default margin, padding, and box-sizing */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style for the form container */
+.form-container {
+    margin: 20px auto;
+    padding: 15px;
+    background: #173456;
+    color: white;
+    border-radius: 10px;
+    width: 50%;
+    height: 45%;
+}
+
+/* Style for input container */
+.input-cnt {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+/* Style for icon */
+.input-cnt>i {
+    min-width: 40px;
+    padding: 10px;
+    text-align: center;
+    background: lightgrey;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: #0076ff;
+}
+
+/* Hover effect for icon */
+.input-cnt:hover>i {
+    background: #0076ff;
+    color: white;
+}
+
+/* Style for text and password inputs */
+.input-cnt>input[type="text"],
+.input-cnt>input[type="password"] {
+    outline: none;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100%;
+}
+
+/* Style for submit button */
+.input-cnt>input[type="submit"] {
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    width: 75%;
+    margin: 0 auto;
+    font-size: 105%;
+    padding: 8px;
+    color: #0076ff;
+    background: white;
+    transition-duration: .5s;
+}
+
+/* Hover effect for submit button */
+.input-cnt>input[type="submit"]:hover {
+    color: white;
+    background: #0076ff;
+}
+
+.login {
+    font-size: 30px;
+    color: #28a745;
+    display: flex;
+/* Added to align items in the center */
+    justify-content: center;
+    /* Added to horizontally center the button */
+    align-items: center;
+    border-radius: 10px;
+    height: 10vh;
+    
+}
+
+
+.login button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login button:hover {
+    background-color: #218838;
+}
+
+
+.post-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: 50px;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.post-container h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.post-container p {
+    margin-bottom: 5px;
+}
+.dd {
+    position: relative;
+    display: inline;
+}
+.dd-btn {
+    padding: 10px;
+    text-align: center;
+    background: #173456;
+    border: none;
+    width: 300px;
+    color: #f8f9f9;
+}
+.dd-content {
+    position: relative;
+    width: 80%;
+    height: 0px;
+    transition: height 1s;
+    overflow: hidden;
+}
+.dd:hover > .dd-cotent {
+    height: 150px;
+}
+.dd-content {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+
+ <button class="dd-btn" onclick="toggleDropdown()">tap</button>
+        <div class="dd-content" id="dropdownContent">
+            <div id="postForm" style="display: none;"> 
+        <form id="createPostForm" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Title"><br>
+            <textarea name="content" placeholder="Content"></textarea><br>
+            <input type="file" name="image" accept="image/*"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+
+    {% extends 'base.html' %}
+{% block body %}
+    <div class="dd">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">Social Media</a>
+                <!-- Other navigation links -->
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/all">
+                            <i class="material-icons">home</i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">
+                            <i class="material-icons">person</i> Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/update">
+                            <i class="material-icons">update</i> Update
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Trigger for creating a post -->
+                        <a class="nav-link" href="/createpost" onclick="togglePostForm()">
+                            <i class="material-icons">add</i> Create
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/delete" onclick="toggleDropdown()"">
+                            <i class="material-icons">delete</i> Delete 
+                        </a>
+                       
+                        <div id="postForm" style="display: none;">
+                         <form id="createPostForm" enctype="multipart/form-data">
+                           <input type="text" name="title" placeholder="Title"><br>
+                            <textarea name="content" placeholder="Content"></textarea><br>
+                            <input type="file" name="image" accept="image/*"><br>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+       
+        </div>
+    </div>
+
+    <!-- Form for creating a post -->
+    
+
+    {% for item in posts_with_votes %}
+        <div class="post-container" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>
+            <!-- Other post details -->
+            {% if item.user_email %}
+                <p style="font-style: italic; margin-bottom: 3px;">User Email: {{ item.user_email }}</p>
+                <p style="margin-bottom: 3px;">Content: {{ item.post.content }}</p>
+                <p style="margin-bottom: 3px;">Published: {{ item.post.published }}</p>
+                <p style="margin-bottom: 3px;">Image: {{ item.post.image }}</p>
+            {% else %}
+                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
+            {% endif %}
+            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+
+
+{% endblock %}
+{% extends 'base.html' %}
+{% block body %}
+    <div class="dd">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">Social Media</a>
+            <!-- Other navigation links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/all">
+                        <i class="material-icons">home</i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">
+                        <i class="material-icons">person</i> Profile
+                    </a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="/createpost" onclick="togglePostForm()">
+                        <i class="material-icons">add</i> Create
+                    </a>
+                </li>
+               
+            </ul>
+        </nav>
+    </div>
+
+   
+    <!-- Form for creating a post -->
+    <div id="postForm" style="display: none;">
+        <form id="createPostForm" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Title"><br>
+            <textarea name="content" placeholder="Content"></textarea><br>
+            <input type="file" name="image" accept="image/*"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <!-- Rest of the code -->
+  {% for item in posts_with_votes %}
+        <div class="post-container" style="position: relative; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+            <!-- Post content -->
+            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>
+            <!-- Other post details -->
+            {% if item.user_email %}
+                <!-- User details -->
+            {% else %}
+                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
+            {% endif %}
+            <!-- Post content -->
+            <p style="margin-bottom: 3px;">Content: {{ item.post.content }}</p>
+            <p style="margin-bottom: 3px;">Published: {{ item.post.published }}</p>
+            <p style="margin-bottom: 3px;">Image: {{ item.post.image }}</p>
+            
+            <!-- Dropdown for "Delete" and "Update" links for each post -->
+            <div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_{{ item.post.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Options
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_{{ item.post.id }}">
+                    <a class="dropdown-item" href="/delete/{{ item.post.id }}"><i class="material-icons">delete</i> Delete</a>
+                    <a class="dropdown-item" href="/update/{{ item.post.id }}"><i class="material-icons">update</i> Update</a>
+                </div>
+            </div>
+
+            <!-- Votes section -->
+            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

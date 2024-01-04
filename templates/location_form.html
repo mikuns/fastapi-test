@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Location Information</title>
+    <style>
+        /* Reset default margin, padding, and box-sizing */
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif; /* Set a fallback font */
+        }
+
+        /* Container styles */
+        h1 {
+            text-align: center;
+        }
+
+        /* Form styles */
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 5px;
+        }
+
+        input[type="tel"],
+        input[type="text"] {
+            width: calc(100% - 10px); /* Adjust width */
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076ff;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0059b3;
+        }
+
+        /* Add the button styles here */
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076ff;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0059b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Location Information</h1>
+    <form id="locationInfoForm"  onsubmit="submitForm(event)">
+        <label for="phone_number">Phone Number:</label>
+        <input type="tel" id="phone_number" name="phone_number"><br><br>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country"><br><br>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state"><br><br>
+
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" id="postal_code" name="postal_code"><br><br>
+
+        <label for="hobbies">Hobbies:</label>
+        <input type="text" id="hobbies" name="hobbies"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        async function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const phone_number = document.getElementById('phone_number').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const postal_code = document.getElementById('postal_code').value;
+            const hobbies = document.getElementById('hobbies').value;
+
+            const locationInfo = {
+                phone_number: phone_number,
+                country: country,
+                state: state,
+                postal_code: postal_code,
+                hobbies: hobbies
+            };
+
+            try {
+                const response = await fetch('/submit_location_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(locationInfo)
+                });
+
+                if (response.ok) {
+                    window.location.href = '/';
+                    console.log('Location Info submitted successfully');
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

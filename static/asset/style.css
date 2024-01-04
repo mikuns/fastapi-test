@@ -1,0 +1,219 @@
+   
+
+   /* Reset default margin, padding, and box-sizing */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style for the form container */
+.form-container {
+    margin: 20px auto;
+    padding: 15px;
+    background: #173456;
+    color: white;
+    border-radius: 10px;
+    width: 50%;
+    height: 45%;
+}
+
+/* Style for input container */
+.input-cnt {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+/* Style for icon */
+.input-cnt>i {
+    min-width: 40px;
+    padding: 10px;
+    text-align: center;
+    background: lightgrey;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: #0076ff;
+}
+
+/* Hover effect for icon */
+.input-cnt:hover>i {
+    background: #0076ff;
+    color: white;
+}
+
+/* Style for text and password inputs */
+.input-cnt>input[type="text"],
+.input-cnt>input[type="password"] {
+    outline: none;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100%;
+}
+
+/* Style for submit button */
+.input-cnt>input[type="submit"] {
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    width: 75%;
+    margin: 0 auto;
+    font-size: 105%;
+    padding: 8px;
+    color: #0076ff;
+    background: white;
+    transition-duration: .5s;
+}
+
+/* Hover effect for submit button */
+.input-cnt>input[type="submit"]:hover {
+    color: white;
+    background: #0076ff;
+}
+
+.login {
+    font-size: 30px;
+    color: #28a745;
+    display: flex;
+/* Added to align items in the center */
+    justify-content: center;
+    /* Added to horizontally center the button */
+    align-items: center;
+    border-radius: 10px;
+    height: 10vh;
+    
+}
+
+
+.login button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login button:hover {
+    background-color: #218838;
+}
+
+
+.post-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: 50px;
+    padding: 20px;
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.post-container h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.post-container p {
+    margin-bottom: 5px;
+}
+ .dd {
+     position: relative;
+     display: inline;
+ }
+
+ .dd-btn {
+     padding: 10px;
+     text-align: center;
+     background: #173456;
+     border: none;
+     width: 300px;
+     color: #f8f9f9;
+ }
+
+ .dd-content {
+     position: relative;
+     width: 80%;
+     height: 0px;
+     transition: height 1s;
+     overflow: hidden;
+ }
+
+ .dd:hover>.dd-content {
+     height: 150px;
+ }
+
+ .dd-content a {
+     display: block;
+     text-decoration: none;
+     color: black;
+ }
+
+
+ /* CSS for making the navbar initially hidden */
+ #navbar {
+     transform: translateY(-100%);
+     transition: transform 0.3s ease;
+ }
+
+ /* CSS to display the navbar when scrolled */
+ #navbar.visible-navbar {
+     transform: translateY(0);
+ }
+ .input-cnt>input[type="text"],
+ .input-cnt>textarea {
+     outline: none;
+     padding: 10px;
+     border: 1px solid lightgrey;
+     border-top-right-radius: 20px;
+     border-bottom-right-radius: 20px;
+     width: 100%;
+ }
+.post-container {
+    position: relative;
+    outline: none;
+    padding: 30px;
+    padding-top: auto;
+    border: 1px solid lightgrey;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 50%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dd-content {
+    
+    background: fixed;
+    border-radius: 5px;
+}
+
+
+.dd-content input[type="text"],
+.dd-content input[type="file"],
+.dd-content button {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    
+}
+
+.dd-content input[type="file"] {
+    border-radius: 5px;
+}
+
+.dd-content button[type="submit"] {
+    border-radius: 5px;
+}
+.comment-input {
+    border-radius: 5px;
+}

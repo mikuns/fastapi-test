@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+</head>
+<body>
+    <div class="login">
+        <h1 style="color: black;">Forgot Credential?</h1>
+        <button type="button" name="signup" onclick="redirectToSignup()">Reset</button>
+    </div>
+
+    <div class="form-container">
+        <form action="/login" id="loginForm" method="POST" onsubmit="handleLoginForm(event)">
+            <div class="input-cnt">
+                <i class="material-icons">person</i>
+                <input type="text" placeholder="Email or username" name="username" required/>
+            </div>
+            <div class="input-cnt">
+                <i class="material-icons">lock</i>
+                <input type="password" placeholder="Password" name="password" required/>
+            </div>
+            <div class="input-cnt">
+                <input type="submit" value="Login" />
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function handleLoginForm(event) {
+    event.preventDefault(); // Prevents the default form submission behavior
+
+    // Initiates a POST request to '/login_endpoint' with form data
+    fetch('/login_endpoint', {
+        method: 'POST',
+        body: new FormData(document.getElementById('loginForm')), // Collects form data
+    })
+    .then(response => {
+        // Checks if the response is okay; if not, throws an error
+        if (!response.ok) {
+            throw new Error('Login failed');
+            console.log(response)
+        }
+        // Parses the response body as JSON
+        return response.json();
+    })
+    .then(result => {
+        // Accesses the parsed JSON response
+        const accessToken = result.access_token; // Retrieves the access token from the response
+        localStorage.setItem('token', accessToken); // Stores the access token in localStorage
+        console.log(accessToken); // Logs the access token to the console
+
+        // Redirects to '/post' if the access token exists
+        if (accessToken) {
+            window.location.href = '/post';
+        } else {
+            console.error('Access token not found!');
+        }
+
+        // Calls a function assuming it exists to make further requests with the token
+        fetchDataWithToken(accessToken);
+    })
+    .catch(error => {
+        console.error('Error:', error); // Catches and logs any errors that occur during the process
+    });
+}
+
+    </script>
+</body>
+</html>
+{% endblock %}

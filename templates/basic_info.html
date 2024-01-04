@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Info Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        /* Reset default margin, padding, and box-sizing */
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif; /* Set a fallback font */
+        }
+
+        /* Container styles */
+        h1 {
+            text-align: center;
+        }
+
+        /* Form styles */
+        form {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 10px); /* Adjust width */
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076ff;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0059b3;
+        }
+
+        /* Button styles */
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0076ff;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0059b3;
+        }
+        .login {
+            font-size: 30px;
+            color: #28a745;
+            display: flex; /* Added to align items in the center */
+            justify-content: center; /* Added to horizontally center the button */
+            align-items: center;
+            border-radius: 10px;
+            height: 10vh; /* Added to center the button vertically */
+        }
+
+        /* Style for the button */
+        .login button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Basic Information</h1>
+    <form id="basicInfoForm" onsubmit="submitForm(event)">
+        <div>
+            <label for="first_name"><i class="material-icons">person</i> First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+        </div>
+
+        <div>
+            <label for="middle_name"><i class="material-icons">person</i> Middle Name:</label>
+            <input type="text" id="middle_name" name="middle_name">
+        </div>
+
+        <div>
+            <label for="last_name"><i class="material-icons">person</i> Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+        </div>
+
+        <div>
+            <label for="age"><i class="material-icons">accessibility</i> Age:</label>
+            <input type="number" id="age" name="age" required>
+        </div>
+
+        <div>
+            <label for="gender"><i class="material-icons">people</i> Gender:</label>
+            <input type="text" id="gender" name="gender" required>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- Link/Button to Navigate to Next Page -->
+
+
+    <script>
+        async function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(document.getElementById('basicInfoForm'));
+            const basicInfo = {
+                first_name: formData.get('first_name'),
+                middle_name: formData.get('middle_name'),
+                last_name: formData.get('last_name'),
+                age: formData.get('age'),
+                gender: formData.get('gender')
+            };
+
+            try {
+                const response = await fetch('/submit_basic_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(basicInfo)
+                });
+
+                if (response.ok) {
+                    // If submission successful, redirect to another page or handle accordingly
+                    window.location.href = '/location_info';
+                    console.log('Basic Info submitted successfully');
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Handle submission errors here
+            }
+        }
+    </script>
+</body>
+</html>
