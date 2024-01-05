@@ -38,4 +38,4 @@ async def root(request: Request):
 # Example route
 @app.get("/hello/{name}")
 async def say_hello(name: str):
-    return {"message": f"Hello {name.capitalize()}"}
+    return {"message": f"Hello, {name.capitalize()}"}
