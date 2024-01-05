@@ -30,12 +30,12 @@ app.include_router(post.router)
 app.include_router(users.router)
 app.include_router(vote.router)
 
-# Root route
+
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
-# Example route
+
 @app.get("/hello/{name}")
 async def say_hello(name: str):
     return {"message": f"Hello, {name.capitalize()}"}
