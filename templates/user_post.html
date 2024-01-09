@@ -1,220 +1,254 @@
-{% extends 'base.html' %}
-<link rel="stylesheet" href="/static/asset/style.css">
-<title>posts</title>
+<!--{% extends 'base.html' %}-->
+<!--<link rel="stylesheet" href="/static/asset/style.css">-->
+<!--<title>posts</title>-->
 
-{% block body %}
-    <div class="dd">
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="navbar">
-            <!-- Navbar content -->
-            <!-- ... -->
-            <a class="navbar-brand" href="/post">Social Media</a>
-            <!-- Search input -->
-            <form class="form-inline my-2 my-lg-0 mx-auto" action="/post?" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <!-- Other navigation links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Home link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/post">
-                        <i class="material-icons">home</i> Home
-                    </a>
-                </li>
-                <!-- Profile link -->
-                <li class="nav-item dd">
-                    <a class="nav-link dd" href="/user">
-                        <i class="material-icons">person</i> Profile
-                    </a>
-                    <div class="dd-content">
-                        <a href="/user_profile">Profile</a>
-                        <a href="/freind_list">friends</a>
-                        <a href="/user_post">my_post</a>
-                    </div>
-                </li>
-                <!-- Create post link -->
-                <!-- Logout link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="material-icons">logout</i> Logout
-                    </a>
-                </li>
-                <li class="nav-item dd">
-                    <a class="nav-link" href="create_post" >
-                        <i class="material-icons">add</i> Create
-                    </a>
-                    <div class="dd-content">
-                        <form action="/create_post_endpoint" method="POST" enctype="multipart/form-data">
-                            <input type="text" id="content" placeholder="content" name="content"/><br>
-                            <input type="file" id="fileInput" name="file" accept="image/*,video/*"><br>
-                            <button type="submit" value="post">Post</button>
-                        </form>
-                    </div>
-                </li>
+<!--{% block body %}-->
+<!--    <div class="dd">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="navbar">-->
+<!--            &lt;!&ndash; Navbar content &ndash;&gt;-->
+<!--            &lt;!&ndash; ... &ndash;&gt;-->
+<!--            <a class="navbar-brand" href="/post">Social Media</a>-->
+<!--            &lt;!&ndash; Search input &ndash;&gt;-->
+<!--            <form class="form-inline my-2 my-lg-0 mx-auto" action="/post?" method="GET">-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--            </form>-->
+<!--            &lt;!&ndash; Other navigation links &ndash;&gt;-->
+<!--            <ul class="navbar-nav ml-auto">-->
+<!--                &lt;!&ndash; Home link &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/post">-->
+<!--                        <i class="material-icons">home</i> Home-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                &lt;!&ndash; Profile link &ndash;&gt;-->
+<!--                <li class="nav-item dd">-->
+<!--                    <a class="nav-link dd" href="/user">-->
+<!--                        <i class="material-icons">person</i> Profile-->
+<!--                    </a>-->
+<!--                    <div class="dd-content">-->
+<!--                        <a href="/user_profile">Profile</a>-->
+<!--                        <a href="/freind_list">friends</a>-->
+<!--                        <a href="/user_post">my_post</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                &lt;!&ndash; Create post link &ndash;&gt;-->
+<!--                &lt;!&ndash; Logout link &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/">-->
+<!--                        <i class="material-icons">logout</i> Logout-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dd">-->
+<!--                    <a class="nav-link" href="create_post" >-->
+<!--                        <i class="material-icons">add</i> Create-->
+<!--                    </a>-->
+<!--                    <div class="dd-content">-->
+<!--                        <form action="/create_post_endpoint" method="POST" enctype="multipart/form-data">-->
+<!--                            <input type="text" id="content" placeholder="content" name="content"/><br>-->
+<!--                            <input type="file" id="fileInput" name="file" accept="image/*,video/*"><br>-->
+<!--                            <button type="submit" value="post">Post</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+
+
+
+<!--    &lt;!&ndash; ... (existing HTML code) ... &ndash;&gt;-->
+<!--    {% for item in posts_with_votes %}-->
+<!--        <div class="post-container" data-post-id="{{ item.post.id }}">-->
+<!--            {% if item.user_email %}-->
+<!--                <p style="margin-bottom: 3px; display: none;" class="post-id">{{ item.post.id }}</p>-->
+<!--                <p style="margin-bottom: 3px;">{{ item.user_email }}</p>-->
+<!--            {% else %}-->
+<!--                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>-->
+<!--            {% endif %}-->
+<!--            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>-->
+<!--            <p style="margin-bottom: 3px;">{{ item.post.content }}</p>-->
+<!--            <p style="margin-bottom: 3px;">{{ item.post.image }}</p>-->
+
+<!--            &lt;!&ndash; Votes section &ndash;&gt;-->
+<!--            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>-->
+
+<!--            &lt;!&ndash; Comment and Like buttons &ndash;&gt;-->
+<!--            <div class="dd" style="position: absolute; bottom: 10px; left: 15px;">-->
+<!--                <button class="btn btn-primary btn-sm comment-button">Comment</button>-->
+<!--                <div class="comment-input" style="display: none;">-->
+<!--                    <form id="createCommentForm" enctype="multipart/form-data">-->
+<!--                        <input type="text" name="comment" placeholder="comment"><br>-->
+<!--                        <input type="submit" value="Submit">-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div style="position: absolute; bottom: 10px; left: 120px;">-->
+<!--                <button class="btn btn-outline-primary btn-sm comment-toggle">Like</button>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Update and Delete links &ndash;&gt;-->
+<!--            <div style="position: absolute; top: 10px; right: 10px;">-->
+<!--                <a href="#" onclick="deletePost({{ item.post.id }})">-->
+<!--                    <i class="material-icons" style="color: red;">delete</i> Delete-->
+<!--                </a>-->
+<!--                <a href="#" onclick="updatePost({{ item.post.id }})">-->
+<!--                    <i class="material-icons">update</i> Update-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+<!--    {% endfor %}-->
+<!--{% endblock %}-->
+
+<!--{% block content %}-->
+<!--    &lt;!&ndash; Include jQuery before Bootstrap &ndash;&gt;-->
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>-->
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            $('.comment-button').click(function() {-->
+<!--                $(this).siblings('.comment-input').toggle();-->
+<!--            });-->
+<!--        });-->
+
+<!--        const navbar = document.getElementById("navbar");-->
+<!--        const navbarOffsetTop = navbar.offsetTop;-->
+
+<!--        function handleScroll() {-->
+<!--            if (window.pageYOffset > navbarOffsetTop) {-->
+<!--                navbar.classList.add("visible-navbar");-->
+<!--            } else {-->
+<!--                navbar.classList.remove("visible-navbar");-->
+<!--            }-->
+<!--        }-->
+
+<!--        window.addEventListener("scroll", handleScroll);-->
+
+
+<!--        handleScroll();-->
+
+
+<!--// Function to create a new post-->
+<!--async function createPost() {-->
+<!--    const content = document.getElementById('content').value;-->
+<!--    const image = document.getElementById('fileInput').files[0];-->
+
+<!--    const postData = new FormData();-->
+<!--    postData.append('content', content);-->
+<!--    postData.append('image', image);-->
+
+<!--    const accessToken = localStorage.getItem('token');-->
+<!--    console.log(accessToken);-->
+
+<!--    if (!accessToken) {-->
+<!--        console.error('Access token not found!');-->
+<!--        return;-->
+<!--    }-->
+
+<!--    try {-->
+<!--        const response = await fetch('/create_post_endpoint', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': `Bearer ${accessToken}`-->
+<!--            },-->
+<!--            body: postData-->
+<!--        });-->
+
+<!--        if (!response.ok) {-->
+<!--            throw new Error('Request failed!');-->
+<!--        }-->
+
+<!--        const createdPost = await response.json();-->
+<!--        console.log('Created Post:', createdPost);-->
+<!--    } catch (error) {-->
+<!--        console.error('Error creating post:', error);-->
+<!--    }-->
+<!--}-->
+
+<!--// Function to update a post-->
+<!--async function updatePost(postId, updatedData) {-->
+<!--    try {-->
+<!--        const response = await fetch(`/update/${postId}`, {-->
+<!--            method: 'PUT',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json',-->
+<!--                'Authorization': `Bearer ${accessToken}`-->
+<!--            },-->
+<!--            body: JSON.stringify(updatedData)-->
+<!--        });-->
+
+<!--        if (!response.ok) {-->
+<!--            throw new Error('Request failed!');-->
+<!--        }-->
+
+<!--        const updatedPost = await response.json();-->
+<!--        console.log('Updated Post:', updatedPost);-->
+<!--        // Handle the response as needed (e.g., update UI)-->
+<!--    } catch (error) {-->
+<!--        console.error('Error updating post:', error);-->
+<!--    }-->
+<!--}-->
+
+<!--// Function to delete a post-->
+<!--async function deletePost(postId) {-->
+<!--    try {-->
+<!--        const response = await fetch(`/delete/${postId}`, {-->
+<!--            method: 'DELETE',-->
+<!--            headers: {-->
+<!--                'Authorization': `Bearer ${accessToken}`-->
+<!--            }-->
+<!--        });-->
+
+<!--        if (!response.ok) {-->
+<!--            throw new Error('Request failed!');-->
+<!--        }-->
+
+<!--        console.log('Post deleted successfully!');-->
+
+<!--    } catch (error) {-->
+<!--        console.error('Error deleting post:', error);-->
+<!--    }-->
+<!--}-->
+
+
+
+<!--    </script>-->
+<!--{% endblock %}-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Posts</title>
+    <!-- Add any necessary CSS styles or external CSS links here -->
+    <style>
+        /* Your CSS styles */
+    </style>
+</head>
+<body>
+    <h1>User Posts</h1>
+    <div class="user-posts">
+        {% if user_posts %}
+            <ul>
+                {% for post in user_posts %}
+                    <li>
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.content }}</p>
+                        <!-- Add other post details as needed -->
+                    </li>
+                {% endfor %}
             </ul>
-        </nav>
+        {% else %}
+            <p>No posts available.</p>
+        {% endif %}
     </div>
-
-
-
-    <!-- ... (existing HTML code) ... -->
-    {% for item in posts_with_votes %}
-        <div class="post-container" data-post-id="{{ item.post.id }}">
-            {% if item.user_email %}
-                <p style="margin-bottom: 3px; display: none;" class="post-id">{{ item.post.id }}</p>
-                <p style="margin-bottom: 3px;">{{ item.user_email }}</p>
-            {% else %}
-                <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
-            {% endif %}
-            <h2 style="font-size: 1.5em; margin-bottom: 5px;">{{ item.post.title }}</h2>
-            <p style="margin-bottom: 3px;">{{ item.post.content }}</p>
-            <p style="margin-bottom: 3px;">{{ item.post.image }}</p>
-
-            <!-- Votes section -->
-            <p style="font-weight: bold;">Votes: {{ item.votes }}</p>
-
-            <!-- Comment and Like buttons -->
-            <div class="dd" style="position: absolute; bottom: 10px; left: 15px;">
-                <button class="btn btn-primary btn-sm comment-button">Comment</button>
-                <div class="comment-input" style="display: none;">
-                    <form id="createCommentForm" enctype="multipart/form-data">
-                        <input type="text" name="comment" placeholder="comment"><br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </div>
-            <div style="position: absolute; bottom: 10px; left: 120px;">
-                <button class="btn btn-outline-primary btn-sm comment-toggle">Like</button>
-            </div>
-
-            <!-- Update and Delete links -->
-            <div style="position: absolute; top: 10px; right: 10px;">
-                <a href="#" onclick="deletePost({{ item.post.id }})">
-                    <i class="material-icons" style="color: red;">delete</i> Delete
-                </a>
-                <a href="#" onclick="updatePost({{ item.post.id }})">
-                    <i class="material-icons">update</i> Update
-                </a>
-            </div>
-        </div>
-
-
-
-
-    {% endfor %}
-{% endblock %}
-
-{% block content %}
-    <!-- Include jQuery before Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Add any necessary JavaScript scripts or external JS links here -->
     <script>
-        $(document).ready(function() {
-            $('.comment-button').click(function() {
-                $(this).siblings('.comment-input').toggle();
-            });
-        });
-
-        const navbar = document.getElementById("navbar");
-        const navbarOffsetTop = navbar.offsetTop;
-
-        function handleScroll() {
-            if (window.pageYOffset > navbarOffsetTop) {
-                navbar.classList.add("visible-navbar");
-            } else {
-                navbar.classList.remove("visible-navbar");
-            }
-        }
-
-        window.addEventListener("scroll", handleScroll);
-
-
-        handleScroll();
-
-
-// Function to create a new post
-async function createPost() {
-    const content = document.getElementById('content').value;
-    const image = document.getElementById('fileInput').files[0]; // Assuming single file upload
-
-    const postData = new FormData();
-    postData.append('content', content);
-    postData.append('image', image);
-
-    const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
-
-    if (!accessToken) {
-        console.error('Access token not found!');
-        return;
-    }
-
-    try {
-        const response = await fetch('/create_post_endpoint', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: postData
-        });
-
-        if (!response.ok) {
-            throw new Error('Request failed!');
-        }
-
-        const createdPost = await response.json();
-        console.log('Created Post:', createdPost);
-    } catch (error) {
-        console.error('Error creating post:', error);
-    }
-}
-
-// Function to update a post
-async function updatePost(postId, updatedData) {
-    try {
-        const response = await fetch(`/update/${postId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify(updatedData)
-        });
-
-        if (!response.ok) {
-            throw new Error('Request failed!');
-        }
-
-        const updatedPost = await response.json();
-        console.log('Updated Post:', updatedPost);
-        // Handle the response as needed (e.g., update UI)
-    } catch (error) {
-        console.error('Error updating post:', error);
-    }
-}
-
-// Function to delete a post
-async function deletePost(postId) {
-    try {
-        const response = await fetch(`/delete/${postId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Request failed!');
-        }
-
-        console.log('Post deleted successfully!');
-
-    } catch (error) {
-        console.error('Error deleting post:', error);
-    }
-}
-
-
-
+        // Your JavaScript code
     </script>
-{% endblock %}
+</body>
+</html>

@@ -1,70 +1,119 @@
 {% extends 'base.html' %}
+
 {% block head %}
     <link rel="stylesheet" href="/static/asset/style.css">
     <title>posts</title>
 {% endblock %}
 
 {% block body %}
-    <div class="dd">
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="navbar">
-            <!-- Navbar content -->
-            <!-- ... -->
-            <a class="navbar-brand" href="/post">Social Media</a>
-            <!-- Search input -->
-            <form class="form-inline my-2 my-lg-0 mx-auto" action="/post?" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <!-- Other navigation links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Home link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/post">
-                        <i class="material-icons">home</i> Home
-                    </a>
-                </li>
-                <!-- Profile link -->
-                <li class="nav-item dd">
-                    <a class="nav-link dd" href="/users">
-                        <i class="material-icons">person</i> Profile
-                    </a>
-                    <div class="dd-content">
-                        <a href="/user_email">Profile</a>
-                        <a href="/freinds">friends</a>
-                        <a href="/user_post">my_post</a>
-                    </div>
-                </li>
-                <!-- Create post link -->
-                <!-- Logout link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="material-icons">logout</i> Logout
-                    </a>
-                </li>
-                <li class="nav-item dd">
-                    <a class="nav-link" href="#" >
-                        <i class="material-icons">add</i> Create
-                    </a>
-                    <div class="dd-content">
-                        <form action="/create_post_endpoint" method="POST" enctype="multipart/form-data">
-                            <input type="text" id="content" placeholder="content" name="content"/><br>
-                            <input type="file" id="fileInput" name="file" accept="image/*,video/*"><br>
-                            <button type="submit" value="post">Post</button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<div class="dd">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="navbar">
+        <!-- Navbar content -->
+        <a class="navbar-brand" href="/post">Social Media</a>
+        <form class="form-inline my-2 my-lg-0 mx-auto" action="/post?" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/post">
+                    <i class="material-icons">home</i> Home
+                </a>
+            </li>
+            <li class="nav-item dd">
+                <a class="nav-link dd" href="/users">
+                    <i class="material-icons">person</i> Profile
+                </a>
+                <div class="dd-content">
+                    <a href="/user_email">Profile</a>
+                    <a href="/friends">Friends</a>
+                    <a href="/user_post">My Posts</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">
+                    <i class="material-icons">logout</i> Logout
+                </a>
+            </li>
+            <li class="nav-item dd">
+                <a class="nav-link" href="#">
+                    <i class="material-icons">add</i> Create
+                </a>
+                <div class="dd-content">
+                    <form action="/create_post_endpoint" method="POST" enctype="multipart/form-data">
+                        <input type="text" id="content" placeholder="Content" name="content"/><br>
+                        <input type="file" id="fileInput" name="file" accept="image/*,video/*"><br>
+                        <button type="submit" value="post">Post</button>
+                    </form>
+                </div>
+            </li>
+            <li class="nav-item dd">
+                <a class="nav-link dd" href="/user_post">
+                    <i class="material-icons">post</i> My Posts
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
-    <!-- ... (existing HTML code) ... -->
+
+<!--    <div class="dd">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" id="navbar">-->
+<!--            &lt;!&ndash; Navbar content &ndash;&gt;-->
+<!--            <a class="navbar-brand" href="/post">Social Media</a>-->
+<!--            <form class="form-inline my-2 my-lg-0 mx-auto" action="/post?" method="GET">-->
+<!--                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--            </form>-->
+<!--            <ul class="navbar-nav ml-auto">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/post">-->
+<!--                        <i class="material-icons">home</i> Home-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dd">-->
+<!--                    <a class="nav-link dd" href="/users">-->
+<!--                        <i class="material-icons">person</i> Profile-->
+<!--                    </a>-->
+<!--                    <div class="dd-content">-->
+<!--                        <a href="/user_email">Profile</a>-->
+<!--                        <a href="/friends">Friends</a>-->
+<!--                        <a href="/user_post">My Posts</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/">-->
+<!--                        <i class="material-icons">logout</i> Logout-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dd">-->
+<!--                    <a class="nav-link" href="#">-->
+<!--                        <i class="material-icons">add</i> Create-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item dd">-->
+<!--                    <a class="nav-link dd" href="/user_post">-->
+<!--                         <i class="material-icons">post</i> My Posts-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                    <div class="dd-content">-->
+<!--                        <form action="/create_post_endpoint" method="POST" enctype="multipart/form-data">-->
+<!--                            <input type="text" id="content" placeholder="Content" name="content"/><br>-->
+<!--                            <input type="file" id="fileInput" name="file" accept="image/*,video/*"><br>-->
+<!--                            <button type="submit" value="post">Post</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+
     {% for item in posts_with_votes %}
-
         <div class="post-container" data-post-id="{{ item.post.id }}">
             <p style="margin-bottom: 3px; position: absolute; top: 0; left: 0;">{{ item.user_email }}</p>
             {% if item.post.id %}
                 <p style="margin-bottom: 3px; display: none;" class="post-id">{{ item.post.id }}</p>
-
             {% else %}
                 <p style="font-style: italic; margin-bottom: 3px;">User Email: Not available</p>
             {% endif %}
@@ -72,16 +121,11 @@
             <p style="margin-bottom: 3px;">{{ item.post.content }}</p>
             <p style="margin-bottom: 3px;">{{ item.post.image }}</p>
 
-            <!-- Votes section -->
-
-
-            <!-- Comment and Like buttons -->
             <div class="dd" style="position: absolute; bottom: 10px; left: 15px;">
-
                 <button class="btn btn-primary btn-sm comment-button">Comment</button>
                 <div class="comment-input" style="display: none;">
                     <form id="createCommentForm" enctype="multipart/form-data">
-                        <input type="text" name="comment" placeholder="comment"><br>
+                        <input type="text" name="comment" placeholder="Comment"><br>
                         <input type="submit" value="Submit">
                     </form>
                 </div>
@@ -92,39 +136,34 @@
             <div style="position: absolute; bottom: 10px; left: 190px;">
                 <p style="font-weight: bold;">Likes {{ item.votes }}</p>
             </div>
-
         </div>
     {% endfor %}
 {% endblock %}
 
 {% block content %}
-    <!-- Include jQuery before Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
+        const accessToken = localStorage.getItem('token');
         $(document).ready(function() {
             $('.comment-button').click(function() {
                 $(this).siblings('.comment-input').toggle();
             });
-        });
 
-        const navbar = document.getElementById("navbar");
-        const navbarOffsetTop = navbar.offsetTop;
+            const navbar = document.getElementById("navbar");
+            const navbarOffsetTop = navbar.offsetTop;
 
-        function handleScroll() {
-            if (window.pageYOffset > navbarOffsetTop) {
-                navbar.classList.add("visible-navbar");
-            } else {
-                navbar.classList.remove("visible-navbar");
+            function handleScroll() {
+                if (window.pageYOffset > navbarOffsetTop) {
+                    navbar.classList.add("visible-navbar");
+                } else {
+                    navbar.classList.remove("visible-navbar");
+                }
             }
-        }
 
-        window.addEventListener("scroll", handleScroll);
+            window.addEventListener("scroll", handleScroll);
+            handleScroll();
 
-        handleScroll();
-
-
-        $(document).ready(function() {
             $('.comment-button').click(function() {
                 $(this).siblings('.comment-input').toggle();
             });
@@ -132,11 +171,8 @@
             $('.like-button').click(function() {
                 var postId = $(this).closest('.post-container').data('post-id');
                 var userId = localStorage.getItem('accessToken');
-
-
                 var currentVotes = parseInt($(this).siblings('.vote-count').text());
                 $(this).siblings('.vote-count').text(currentVotes + 1);
-
 
                 fetch('/vote', {
                     method: "POST",
@@ -149,17 +185,100 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    // Optionally, handle the response from the server if needed
-                    // For example, display a message confirming the vote was successful
                     console.log('Vote submitted successfully');
                 })
                 .catch(error => {
-                    // Handle errors that may occur during the fetch request
                     console.error('There was a problem with the fetch operation:', error);
                 });
             });
+            const headers = {
+                'Authorization': `Bearer ${accessToken}`
+            };
+            // Function to fetch data using token and headers
+            function fetchData(url) {
+                fetch(url, {
+                    method: 'GET',
+                    headers: headers
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+            }
+
+            function handleLinkClick(url) {
+                fetch(url, {
+                    method: 'GET',
+                    headers: headers // Pass the headers with the authorization token
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return window.location.href = url;
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+            }
+
+            // Select all links in the dropdown and add click event listeners
+            const links = document.querySelectorAll('.dd-content a');
+            links.forEach(link => {
+                link.addEventListener('click', event => {
+                    event.preventDefault();
+                    const url = link.getAttribute('href');
+                    handleLinkClick(url);
+
+                });
+            });
+
         });
 
-        // Rest of your existing JavaScript code...
+
+    // Function to fetch user's posts
+async function userPost() {
+    try {
+        const response = await fetch('/user_post', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Request failed!');
+        }
+
+        const postData = await response.json();
+        console.log('User posts fetched successfully:', postData);
+
+        // Handle the retrieved posts as needed
+
+    } catch (error) {
+        console.error('Error fetching user posts:', error);
+    }
+}
+
+// Add event listener to the /user_post link
+const userPostLink = document.querySelector('a[href="/user_post"]');
+userPostLink.addEventListener('click', async (event) => {
+    event.preventDefault(); // Prevent default link behavior (page navigation)
+
+    // Call the userPost function to fetch posts
+    await userPost();
+});
+
     </script>
 {% endblock %}

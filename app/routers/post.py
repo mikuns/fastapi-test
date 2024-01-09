@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from app import models, schemas, OAuth2
 from app.database import get_db
 from sqlalchemy import func
+from fastapi.responses import JSONResponse
 from fastapi.responses import HTMLResponse
 
 templates = Jinja2Templates(directory="templates")
@@ -153,12 +154,52 @@ async def create_post(
         print("error",e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create post")
 
-@router.get('/user_post', status_code=status.HTTP_200_OK)
-async def get_user_posts(request: Request, db: Session = Depends(get_db),
-             curr_user: models.User = Depends(OAuth2.get_current_user)):
-    user_posts = db.query(models.Post).filter(models.Post.user_id == curr_user.id).all()
-    if not user_posts:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='You don\'t have any posts yet')
+@router.get("/zuser_post", response_model=List[schemas.Post], status_code=status.HTTP_200_OK)
+def search_posts(
+        request: Request,
+        query: str = Query(None),
+        db: Session = Depends(get_db),
+        curr_user: models.User = Depends(OAuth2.get_current_user)
+):
+    if query:
+        result = (
+            db.query(models.Post, models.User.email, func.count(models.Vote.post_id).label("votes"))
+            .outerjoin(models.Vote, models.Vote.post_id == models.Post.id)
+            .join(models.User, models.User.id == models.Post.user_id)
+            .filter(
+                models.Post.title.ilike(f"%{query}%") | models.Post.content.ilike(f"%{query}%")
+            )
+            .group_by(models.Post.id, models.User.email)
+            .all()
+        )
+    else:
+        result = (
+            db.query(models.Post, models.User.email, func.count(models.Vote.post_id).label("votes"))
+            .outerjoin(models.Vote, models.Vote.post_id == models.Post.id)
+            .join(models.User, models.User.id == models.Post.user_id)
+            .group_by(models.Post.id, models.User.email)
+            .all()
+        )
+
+    # Prepare the data to pass to the template
+    posts_with_votes = [{"post": post, "user_email": email, "votes": votes} for post, email, votes in result]
+
+    # Render the HTML template and pass the data
+    return templates.TemplateResponse("user_post.html", {"request": request, "posts_with_votes": posts_with_votes})
+
+@router.get("/user_post", response_model=List[schemas.Post], status_code=status.HTTP_200_OK)
+def user_posts(
+    request: Request,
+    db: Session = Depends(get_db),
+    curr_user: models.User = Depends(OAuth2.get_current_user)
+):
+    user_posts = (
+        db.query(models.Post)
+        .filter(models.Post.user_id == curr_user.id)
+        .all()
+    )
+
+
     return templates.TemplateResponse("user_post.html", {"request": request, "user_posts": user_posts})
 
 
